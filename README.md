@@ -2,21 +2,24 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+1. you will need to [install mysql](https://dev.mysql.com/downloads/mysql/)
+2. after installation and creation of a root user add db info to your `.env` file
+   * ```DATABASE_URL="mysql://<mysqlrootuser>:<mysqlpassword>@localhost:3306/lpfdb"```
+3. seed your database by running `npx prisma db seed`. This will create two users with the following credentials:
+   * `admin@admin.com` / `password`
+   * `external@user.com` / `password`
+   * you can run `npx prisma studio` to get a GUI for viewing our db, and validate you can see 2 new users
+4. for auth to work, you will need to add a `NEXTAUTH_SECRET` to `.env`
+   * you can get a satisfactory development secret from https://generate-secret.vercel.app/32
+   * update your .env to add the line `NEXTAUTH_SECRET=<generated_secret>`
+5. npm install and then run the development server:
+  * `npm i`
+  * `npm run dev`
+  * you should be able to log in to the site that opens at [http://localhost:3000](http://localhost:3000) with your seeded credentials
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Next Development
+You can start editing the homepage by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
