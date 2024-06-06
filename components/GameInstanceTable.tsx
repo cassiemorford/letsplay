@@ -7,16 +7,26 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/prisma/db";
-import { GameInstance, Organization, Prisma, User } from "@prisma/client";
+import { Game, GameInstance, Prisma } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
 
-type UserWithOrganization = Prisma.UserGetPayload<{
-  include: { organization: true };
-}>;
+const gameInstanceWithGameAndBorrower =
+  Prisma.validator<Prisma.GameInstanceDefaultArgs>()({
+    include: { game: true, borrower: true },
+  });
+
+type GameInstanceWithGameAndBorrower = Prisma.GameInstanceGetPayload<
+  typeof gameInstanceWithGameAndBorrower
+>;
 
 interface Props {
-  gameIds: number[];
+  gameIds?: number[];
+}
+
+interface SelectObject {
+  include: { game: true; borrower: true };
+  where?: { gameId: { in: number[] } };
 }
 
 const gameInstanceTableHeaders = [
@@ -26,17 +36,24 @@ const gameInstanceTableHeaders = [
 ];
 
 const GameInstanceTable = async ({ gameIds }: Props) => {
-  const gameInstances = await prisma.gameInstance.findMany({
-    where: {
-      gameId: {
-        in: gameIds,
-      },
-    },
+  let selectObject: SelectObject = {
     include: {
       game: true,
       borrower: true,
     },
-  });
+  };
+
+  if (gameIds) {
+    selectObject.where = {
+      gameId: {
+        in: gameIds,
+      },
+    };
+  }
+
+  const gameInstances = (await prisma.gameInstance.findMany(
+    selectObject
+  )) as GameInstanceWithGameAndBorrower[];
 
   return (
     <div>
@@ -54,11 +71,9 @@ const GameInstanceTable = async ({ gameIds }: Props) => {
               <TableRow key={i.id}>
                 <TableCell>{i.id}</TableCell>
                 <TableCell>
-                  <Link href={`/admin/gameInstances/${i.id}`}>
-                    {i.game.title}
-                  </Link>
+                  <Link href={`/admin/games/${i.game.id}`}>{i.game.title}</Link>
                 </TableCell>
-                <TableCell>{i.borrower?.name}</TableCell>
+                <TableCell>{i.borrower.name}</TableCell>
               </TableRow>
             </>
           ))}

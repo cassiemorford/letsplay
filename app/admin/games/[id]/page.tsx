@@ -27,7 +27,7 @@ const GamePage = async ({ params }: Props) => {
 
   return (
     <div>
-      <h1>{game.title}</h1>
+      <h1 className="text-lg mx-6 pt-8 pb-8">{game.title}</h1>
       <GameInstanceTable gameIds={[game.id]} />
     </div>
   );
