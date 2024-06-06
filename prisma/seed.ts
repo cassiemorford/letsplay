@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 async function main() {
+  // Organizations
   const lpf = await prisma.organization.upsert({
     where: { code: "LPF" },
     update: {},
@@ -21,6 +22,7 @@ async function main() {
     },
   });
 
+  // Users
   const admin = await prisma.user.upsert({
     where: { email: "admin@admin.com" },
     update: {
@@ -57,7 +59,46 @@ async function main() {
     },
   });
 
-  console.log({ admin, external_user });
+  // Games
+  const gameData = [
+    { title: "Scythe", bggId: 169786 },
+    { title: "Scout", bggId: 291453 },
+    { title: "Wingspan", bggId: 266192 },
+  ];
+  gameData.forEach(async (g) => {
+    await prisma.game.upsert({
+      where: { bggId: g.bggId },
+      update: g,
+      create: g,
+    });
+  });
+
+  // Game Instances
+  await prisma.gameInstance.deleteMany();
+  const scoutGame = await prisma.game.findFirst({
+    where: { title: "Scout" },
+  });
+  const wingspanGame = await prisma.game.findFirst({
+    where: { title: "Wingspan" },
+  });
+
+  if (scoutGame) {
+    await prisma.gameInstance.create({
+      data: {
+        borrowerId: lpf.id,
+        gameId: scoutGame.id,
+      },
+    });
+  }
+
+  if (wingspanGame) {
+    await prisma.gameInstance.create({
+      data: {
+        borrowerId: externalOrg.id,
+        gameId: wingspanGame.id,
+      },
+    });
+  }
 }
 main()
   .then(async () => {

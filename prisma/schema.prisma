@@ -12,10 +12,11 @@ datasource db {
 }
 
 model Organization {
-  id      Int    @id @default(autoincrement())
-  name    String
-  code    String @unique
-  members User[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  code         String         @unique
+  members      User[]
+  GameInstance GameInstance[]
 }
 
 model User {
@@ -26,6 +27,21 @@ model User {
   role           Role         @default(EXTERNAL)
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId Int
+}
+
+model Game {
+  id           Int            @id @default(autoincrement())
+  title        String
+  bggId        Int            @unique
+  GameInstance GameInstance[]
+}
+
+model GameInstance {
+  id         Int          @id @default(autoincrement())
+  game       Game         @relation(fields: [gameId], references: [id])
+  gameId     Int
+  borrower   Organization @relation(fields: [borrowerId], references: [id])
+  borrowerId Int
 }
 
 enum Role {
