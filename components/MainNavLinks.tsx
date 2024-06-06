@@ -5,7 +5,12 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const links = [
-  { label: "Users", href: "/users", roles: [Role.ADMIN, Role.EXTERNAL] },
+  { label: "Users", href: "/admin/users", roles: [Role.ADMIN, Role.EXTERNAL] },
+  {
+    label: "Oganizations",
+    href: "/admin/organizations",
+    roles: [Role.ADMIN, Role.EXTERNAL],
+  },
 ];
 
 interface Props {

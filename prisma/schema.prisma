@@ -11,12 +11,21 @@ datasource db {
   relationMode = "prisma"
 }
 
+model Organization {
+  id      Int    @id @default(autoincrement())
+  name    String
+  code    String @unique
+  members User[]
+}
+
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  name     String
-  password String
-  role     Role   @default(EXTERNAL)
+  id             Int          @id @default(autoincrement())
+  email          String       @unique
+  name           String
+  password       String
+  role           Role         @default(EXTERNAL)
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
 }
 
 enum Role {
