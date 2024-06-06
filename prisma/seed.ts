@@ -79,7 +79,7 @@ async function main() {
     where: { title: "Scout" },
   });
   const wingspanGame = await prisma.game.findFirst({
-    where: { title: "Scout" },
+    where: { title: "Wingspan" },
   });
 
   if (scoutGame) {
@@ -90,6 +90,7 @@ async function main() {
       },
     });
   }
+
   if (wingspanGame) {
     await prisma.gameInstance.create({
       data: {
