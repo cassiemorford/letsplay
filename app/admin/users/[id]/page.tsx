@@ -8,6 +8,7 @@ import React from "react";
 interface Props {
   params: { id: string };
 }
+
 const EditUser = async ({ params }: Props) => {
   const session = await getServerSession(options);
   if (session?.user.role !== Role.ADMIN) {
@@ -27,7 +28,7 @@ const EditUser = async ({ params }: Props) => {
   user.password = "";
 
   return (
-    <div>
+    <div className="mx-8">
       <UserForm user={user} />
     </div>
   );
