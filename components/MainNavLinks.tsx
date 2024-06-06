@@ -5,9 +5,10 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 const links = [
+  { label: "Home", href: "/admin", roles: [Role.ADMIN, Role.EXTERNAL] },
   { label: "Users", href: "/admin/users", roles: [Role.ADMIN, Role.EXTERNAL] },
   {
-    label: "Oganizations",
+    label: "Organizations",
     href: "/admin/organizations",
     roles: [Role.ADMIN, Role.EXTERNAL],
   },
@@ -20,7 +21,7 @@ interface Props {
 const MainNavLinks = ({ role }: Props) => {
   const currentPath = usePathname();
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div className="flex flex-row items-center gap-2 text-md lg:flex-grow">
       {links
         .filter((l) => role && l.roles.includes(role))
         .map(({ label, href }) => {
@@ -28,8 +29,10 @@ const MainNavLinks = ({ role }: Props) => {
             <Link
               key={label}
               href={href}
-              className={`navbar-link ${
-                currentPath === href ? "cursor-default text-primary/70" : ""
+              className={`navbar-link  inline-block mt-0 text-teal-100 hover:text-white mr-4  ${
+                currentPath === href
+                  ? "cursor-default text-white hover:text-white font-bold"
+                  : ""
               }`}
             >
               {label}
