@@ -8,6 +8,9 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = userSchema.safeParse(body);
 
+  const organizationCode = body.organizationCode;
+  delete body.organizationCode;
+
   if (!validation.success) {
     return NextResponse.json(validation.error.format, { status: 400 });
   }
@@ -18,16 +21,38 @@ export async function POST(request: NextRequest) {
 
   if (duplicate) {
     return NextResponse.json(
-      { message: "email is already taken" },
+      { clientDisplayError: "Email is already taken" },
       { status: 409 }
     );
   }
 
-  const hashPassword = await bcrypt.hash(body.password, 10);
+  const organizationForCode = await prisma.organization.findUnique({
+    where: { code: organizationCode },
+  });
 
+  if (!organizationForCode) {
+    return NextResponse.json(
+      {
+        clientDisplayError:
+          "Organization join code is invalid. Check that it is correct, then try again.",
+      },
+      { status: 422 }
+    );
+  }
+
+  const hashPassword = await bcrypt.hash(body.password, 10);
   body.password = hashPassword;
 
-  const newUser = await prisma.user.create({ data: { ...body } });
-
-  return NextResponse.json(newUser, { status: 201 });
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        ...body,
+        role: organizationForCode.internal ? Role.ADMIN : Role.EXTERNAL,
+        organization: { connect: { code: organizationCode } },
+      },
+    });
+    return NextResponse.json(newUser, { status: 201 });
+  } catch (e) {
+    return NextResponse.json({ e, body }, { status: 200 });
+  }
 }

@@ -27,6 +27,7 @@ interface Props {
 
 const UserForm = ({ user }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const form = useForm<UserFormData>({
@@ -37,15 +38,25 @@ const UserForm = ({ user }: Props) => {
     console.log("submit");
     try {
       setIsSubmitting(true);
+      let resp;
       if (user) {
-        await axios.patch(`/api/users/${user.id}`, values);
+        resp = await axios.patch(`/api/users/${user.id}`, values);
       } else {
-        await axios.post("/api/users", values);
+        resp = await axios.post("/api/users", values);
       }
-      setIsSubmitting(false);
-      router.push("/users");
-      router.refresh();
-    } catch (error) {
+      debugger;
+      if (resp.data.e) {
+        console.warn(resp.data.e.meta.cause);
+      }
+      if (!resp.data.e) {
+        router.push("/admin/users");
+        router.refresh();
+      }
+    } catch (error: any) {
+      debugger;
+      if (error?.response?.data?.clientDisplayError) {
+        setError(error.response.data.clientDisplayError);
+      }
       setIsSubmitting(false);
     }
   }
@@ -73,7 +84,7 @@ const UserForm = ({ user }: Props) => {
             defaultValue={user?.email}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>email</FormLabel>
+                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="email..." {...field} />
                 </FormControl>
@@ -102,38 +113,22 @@ const UserForm = ({ user }: Props) => {
           <div className="flex w-full space-x-4 py-4">
             <FormField
               control={form.control}
-              defaultValue={user?.role}
-              name="role"
+              name="organizationCode"
+              defaultValue={""}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder="Role..."
-                          defaultValue={user?.role}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                      <SelectItem value={Role.EXTERNAL}>External</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>Organization Join Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Organization Join Code" {...field} />
+                  </FormControl>
                 </FormItem>
               )}
             />
           </div>
+          <p className="text-destructive mb-2">{error}</p>
           <Button type="submit" disabled={isSubmitting}>
             Save
           </Button>
-          {!!Object.keys(form.formState.errors).length && (
-            <p>{JSON.stringify(form.formState.errors)}</p>
-          )}
         </form>
       </Form>
     </div>

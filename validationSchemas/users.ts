@@ -8,5 +8,5 @@ export const userSchema = z.object({
     .min(6, "Password must be at least 6 characters")
     .max(255)
     .or(z.literal("")),
-  role: z.string().min(3, "Role is required").max(10),
+  organizationCode: z.string().min(3).max(6),
 });
