@@ -6,9 +6,10 @@ async function main() {
   // Organizations
   const lpf = await prisma.organization.upsert({
     where: { code: "LPF" },
-    update: {},
+    update: { name: "Lets Play Foundation", internal: true, code: "LPF" },
     create: {
       name: "Lets Play Foundation",
+      internal: true,
       code: "LPF",
     },
   });

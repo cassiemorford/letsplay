@@ -12,6 +12,16 @@ const links = [
     href: "/admin/organizations",
     roles: [Role.ADMIN, Role.EXTERNAL],
   },
+  {
+    label: "Games",
+    href: "/admin/games",
+    roles: [Role.ADMIN, Role.EXTERNAL],
+  },
+  {
+    label: "Game Instances",
+    href: "/admin/gameInstances",
+    roles: [Role.ADMIN, Role.EXTERNAL],
+  },
 ];
 
 interface Props {
