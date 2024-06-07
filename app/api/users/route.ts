@@ -20,8 +20,22 @@ export async function POST(request: NextRequest) {
 
   if (duplicate) {
     return NextResponse.json(
-      { message: "email is already taken" },
+      { clientDisplayError: "Email is already taken" },
       { status: 409 }
+    );
+  }
+
+  const organizationForCode = await prisma.organization.findUnique({
+    where: { code: organizationCode },
+  });
+
+  if (!organizationForCode) {
+    return NextResponse.json(
+      {
+        clientDisplayError:
+          "Organization join code is invalid. Check that it is correct, then try again.",
+      },
+      { status: 422 }
     );
   }
 
