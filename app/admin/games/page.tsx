@@ -18,7 +18,7 @@ const gameTableHeaders = [
 const LibraryPage = async () => {
   const allGames = await prisma.game.findMany({
     include: {
-      _count: { select: { GameInstance: true } },
+      _count: { select: { instances: true } },
     },
   });
 
@@ -39,7 +39,7 @@ const LibraryPage = async () => {
                 <TableCell>
                   <Link href={`/admin/games/${g.id}`}>{g.title}</Link>
                 </TableCell>
-                <TableCell>{g._count.GameInstance}</TableCell>
+                <TableCell>{g._count.instances}</TableCell>
               </TableRow>
             </>
           ))}
