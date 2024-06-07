@@ -43,7 +43,7 @@ const UserForm = ({ user }: Props) => {
         await axios.post("/api/users", values);
       }
       setIsSubmitting(false);
-      router.push("/users");
+      router.push("/admin/users");
       router.refresh();
     } catch (error) {
       setIsSubmitting(false);
@@ -124,6 +124,19 @@ const UserForm = ({ user }: Props) => {
                       <SelectItem value={Role.EXTERNAL}>External</SelectItem>
                     </SelectContent>
                   </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="organizationCode"
+              defaultValue={""}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Organization Join Code" {...field} />
+                  </FormControl>
                 </FormItem>
               )}
             />

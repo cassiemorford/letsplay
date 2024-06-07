@@ -2,11 +2,13 @@ import prisma from "@/prisma/db";
 import { userSchema } from "@/validationSchemas/users";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { Role } from "@prisma/client";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const validation = userSchema.safeParse(body);
+
+  const organizationCode = body.organizationCode;
+  delete body.organizationCode;
 
   if (!validation.success) {
     return NextResponse.json(validation.error.format, { status: 400 });
@@ -24,10 +26,17 @@ export async function POST(request: NextRequest) {
   }
 
   const hashPassword = await bcrypt.hash(body.password, 10);
-
   body.password = hashPassword;
 
-  const newUser = await prisma.user.create({ data: { ...body } });
-
-  return NextResponse.json(newUser, { status: 201 });
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        ...body,
+        organization: { connect: { code: organizationCode } },
+      },
+    });
+    return NextResponse.json(newUser, { status: 201 });
+  } catch (e) {
+    return NextResponse.json({ e, body }, { status: 200 });
+  }
 }
