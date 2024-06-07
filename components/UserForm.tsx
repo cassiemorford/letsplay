@@ -113,33 +113,6 @@ const UserForm = ({ user }: Props) => {
           <div className="flex w-full space-x-4 py-4">
             <FormField
               control={form.control}
-              defaultValue={user?.role}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Role</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder="Role..."
-                          defaultValue={user?.role}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                      <SelectItem value={Role.EXTERNAL}>External</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
               name="organizationCode"
               defaultValue={""}
               render={({ field }) => (
