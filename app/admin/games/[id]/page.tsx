@@ -1,12 +1,9 @@
 import options from "@/app/api/auth/[...nextauth]/options";
 import AddGameInstanceButton from "@/components/AddGameInstanceButton";
 import GameInstanceTable from "@/components/GameInstanceTable";
-import { Button } from "@/components/ui/button";
 import prisma from "@/prisma/db";
 import { Role } from "@prisma/client";
-import axios from "axios";
 import { getServerSession } from "next-auth";
-import { useRouter } from "next/navigation";
 
 import React from "react";
 

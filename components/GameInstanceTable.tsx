@@ -1,3 +1,4 @@
+import options from "@/app/api/auth/[...nextauth]/options";
 import {
   Table,
   TableBody,
@@ -7,7 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/prisma/db";
-import { Game, GameInstance, Prisma } from "@prisma/client";
+import { Game, GameInstance, Prisma, Role } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
 
@@ -22,6 +24,7 @@ type GameInstanceWithGameAndBorrower = Prisma.GameInstanceGetPayload<
 
 interface Props {
   gameIds?: number[];
+  gameInstances?: GameInstanceWithGameAndBorrower[];
 }
 
 interface SelectObject {
@@ -35,25 +38,30 @@ const gameInstanceTableHeaders = [
   { displayValue: "Borrower", dbValue: "borrower" },
 ];
 
-const GameInstanceTable = async ({ gameIds }: Props) => {
-  let selectObject: SelectObject = {
-    include: {
-      game: true,
-      borrower: true,
-    },
-  };
+const GameInstanceTable = async ({ gameIds, gameInstances }: Props) => {
+  const session = await getServerSession(options);
+  const isAdmin = session?.user.role === Role.ADMIN;
 
-  if (gameIds) {
-    selectObject.where = {
-      gameId: {
-        in: gameIds,
+  if (!gameInstances) {
+    let selectObject: SelectObject = {
+      include: {
+        game: true,
+        borrower: true,
       },
     };
-  }
 
-  const gameInstances = (await prisma.gameInstance.findMany(
-    selectObject
-  )) as GameInstanceWithGameAndBorrower[];
+    if (gameIds) {
+      selectObject.where = {
+        gameId: {
+          in: gameIds,
+        },
+      };
+    }
+
+    gameInstances = (await prisma.gameInstance.findMany(
+      selectObject
+    )) as GameInstanceWithGameAndBorrower[];
+  }
 
   return (
     <div>
@@ -71,7 +79,15 @@ const GameInstanceTable = async ({ gameIds }: Props) => {
               <TableRow key={i.id}>
                 <TableCell>{i.id}</TableCell>
                 <TableCell>
-                  <Link href={`/admin/games/${i.game.id}`}>{i.game.title}</Link>
+                  <Link
+                    href={
+                      isAdmin
+                        ? `/admin/games/${i.game.id}`
+                        : `/games/${i.game.id}`
+                    }
+                  >
+                    {i.game.title}
+                  </Link>
                 </TableCell>
                 <TableCell>{i.borrower.name}</TableCell>
               </TableRow>

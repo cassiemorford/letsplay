@@ -12,12 +12,12 @@ datasource db {
 }
 
 model Organization {
-  id           Int            @id @default(autoincrement())
-  internal     Boolean        @default(false)
-  name         String
-  code         String         @unique
-  members      User[]
-  GameInstance GameInstance[]
+  id            Int            @id @default(autoincrement())
+  internal      Boolean        @default(false)
+  name          String
+  code          String         @unique
+  members       User[]
+  borrowedGames GameInstance[]
 }
 
 model User {
@@ -31,10 +31,10 @@ model User {
 }
 
 model Game {
-  id           Int            @id @default(autoincrement())
-  title        String
-  bggId        Int            @unique
-  GameInstance GameInstance[]
+  id        Int            @id @default(autoincrement())
+  title     String
+  bggId     Int            @unique
+  instances GameInstance[]
 }
 
 model GameInstance {
