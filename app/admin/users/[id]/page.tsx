@@ -10,11 +10,6 @@ interface Props {
 }
 
 const EditUser = async ({ params }: Props) => {
-  const session = await getServerSession(options);
-  if (session?.user.role !== Role.ADMIN) {
-    return <p>Admin Access Required</p>;
-  }
-
   const user = await prisma.user.findUnique({
     where: {
       id: parseInt(params.id),

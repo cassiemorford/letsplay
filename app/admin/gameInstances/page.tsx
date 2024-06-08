@@ -1,11 +1,11 @@
 import GameInstanceTable from "@/components/GameInstanceTable";
 import React from "react";
 
-const GameInstancePage = () => {
+const GameInstancePage = async () => {
   return (
     <>
-      <h1 className="text-lg mx-6 pt-8 pb-8">Library</h1>
-      <GameInstanceTable />;
+      <h1 className="text-lg mx-6 pt-6">Library</h1>
+      <GameInstanceTable />
     </>
   );
 };

@@ -5,18 +5,11 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Role, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import { userSchema } from "@/validationSchemas/users";
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -44,7 +37,6 @@ const UserForm = ({ user }: Props) => {
       } else {
         resp = await axios.post("/api/users", values);
       }
-      debugger;
       if (resp.data.e) {
         console.warn(resp.data.e.meta.cause);
       }
@@ -53,7 +45,6 @@ const UserForm = ({ user }: Props) => {
         router.refresh();
       }
     } catch (error: any) {
-      debugger;
       if (error?.response?.data?.clientDisplayError) {
         setError(error.response.data.clientDisplayError);
       }
