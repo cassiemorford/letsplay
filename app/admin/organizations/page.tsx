@@ -1,3 +1,4 @@
+import DeleteOrganizationButton from "@/components/DeleteOrganizationButton";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
@@ -8,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/prisma/db";
+import { Edit } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -15,6 +17,7 @@ const organizationHeaders = [
   { displayValue: "Organization Name", dbValue: "name" },
   { displayValue: "Join Code", dbValue: "code" },
   { displayValue: "Member Count", dbValue: "members" },
+  { displayValue: "Actions", dbValue: "" },
 ];
 
 const OrganizationsPage = async () => {
@@ -52,6 +55,19 @@ const OrganizationsPage = async () => {
                   </TableCell>
                   <TableCell>{o.code}</TableCell>
                   <TableCell>{o._count.members}</TableCell>
+                  <TableCell>
+                    <div className="flex align-middle justify-start">
+                      <Link
+                        className={`${buttonVariants({
+                          variant: "primary",
+                        })} `}
+                        href={`/admin/organizations/${o.id}/edit`}
+                      >
+                        <Edit />
+                      </Link>
+                      <DeleteOrganizationButton organizationId={o.id} />
+                    </div>
+                  </TableCell>
                 </TableRow>
               </>
             ))}
