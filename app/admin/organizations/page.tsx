@@ -1,3 +1,4 @@
+import { buttonVariants } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -24,30 +25,40 @@ const OrganizationsPage = async () => {
   });
 
   return (
-    <div className="px-4">
-      <Table className="rounded-t border">
-        <TableHeader>
-          <TableRow className="bg-secondary hover:bg-secondary">
-            {organizationHeaders.map((oh) => (
-              <TableHead key={oh.dbValue}>{oh.displayValue}</TableHead>
+    <>
+      <div className="flex justify-end">
+        <Link
+          className={`${buttonVariants({ variant: "default" })} mt-6 mb-6 mr-6`}
+          href="/admin/organizations/new"
+        >
+          Add New Organization
+        </Link>
+      </div>
+      <div className="px-4">
+        <Table className="rounded-t border">
+          <TableHeader>
+            <TableRow className="bg-secondary hover:bg-secondary">
+              {organizationHeaders.map((oh) => (
+                <TableHead key={oh.dbValue}>{oh.displayValue}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {allOrganizations.map((o) => (
+              <>
+                <TableRow key={o.id}>
+                  <TableCell className="font-bold underline">
+                    <Link href={`/admin/organizations/${o.id}`}>{o.name}</Link>
+                  </TableCell>
+                  <TableCell>{o.code}</TableCell>
+                  <TableCell>{o._count.members}</TableCell>
+                </TableRow>
+              </>
             ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {allOrganizations.map((o) => (
-            <>
-              <TableRow key={o.id}>
-                <TableCell className="font-bold underline">
-                  <Link href={`/admin/organizations/${o.id}`}>{o.name}</Link>
-                </TableCell>
-                <TableCell>{o.code}</TableCell>
-                <TableCell>{o._count.members}</TableCell>
-              </TableRow>
-            </>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 };
 
