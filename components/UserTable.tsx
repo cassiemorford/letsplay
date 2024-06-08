@@ -1,3 +1,4 @@
+import { UserWithOrganization } from "@/app/admin/users/types";
 import {
   Table,
   TableBody,
@@ -9,10 +10,6 @@ import {
 import { Organization, Prisma, User } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
-
-type UserWithOrganization = Prisma.UserGetPayload<{
-  include: { organization: true };
-}>;
 
 interface Props {
   users: User[] | UserWithOrganization[];

@@ -14,6 +14,7 @@ const EditUser = async ({ params }: Props) => {
     where: {
       id: parseInt(params.id),
     },
+    include: { organization: true },
   });
 
   if (!user) {
