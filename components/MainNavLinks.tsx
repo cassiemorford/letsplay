@@ -43,7 +43,7 @@ interface Props {
 const MainNavLinks = ({ role }: Props) => {
   const currentPath = usePathname();
   return (
-    <div className="flex flex-row items-center gap-2 text-md lg:flex-grow">
+    <div className="flex flex-row flex-wrap items-center gap-2 text-md lg:flex-grow">
       {links
         .filter((l) => role && l.roles.includes(role))
         .map(({ label, href }) => {
