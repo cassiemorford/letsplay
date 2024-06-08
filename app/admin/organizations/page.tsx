@@ -59,7 +59,7 @@ const OrganizationsPage = async () => {
                     <div className="flex align-middle justify-start">
                       <Link
                         className={`${buttonVariants({
-                          variant: "primary",
+                          variant: "ghost",
                         })} `}
                         href={`/admin/organizations/${o.id}/edit`}
                       >
