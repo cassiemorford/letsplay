@@ -26,7 +26,11 @@ const AddGameInstanceButton = ({ gameId }: Props) => {
   }
 
   return (
-    <Button disabled={isSubmitting} onClick={addNewInstance}>
+    <Button
+      disabled={isSubmitting}
+      onClick={addNewInstance}
+      className="mx-6 my-6"
+    >
       Add New Instance
     </Button>
   );

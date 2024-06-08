@@ -29,9 +29,11 @@ const GamePage = async ({ params }: Props) => {
 
   return (
     <div>
-      <h1 className="text-lg mx-6 pt-8 pb-8">{game.title}</h1>
+      <div className="flex justify-between">
+        <h1 className="text-lg mx-6 pt-8 pb-8">{game.title}</h1>
+        <AddGameInstanceButton gameId={game.id} />
+      </div>
       <GameInstanceTable gameIds={[game.id]} />
-      <AddGameInstanceButton gameId={game.id} />
     </div>
   );
 };

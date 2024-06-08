@@ -24,28 +24,30 @@ const OrganizationsPage = async () => {
   });
 
   return (
-    <Table className="rounded-t border">
-      <TableHeader>
-        <TableRow className="bg-secondary hover:bg-secondary">
-          {organizationHeaders.map((oh) => (
-            <TableHead key={oh.dbValue}>{oh.displayValue}</TableHead>
+    <div className="px-4">
+      <Table className="rounded-t border">
+        <TableHeader>
+          <TableRow className="bg-secondary hover:bg-secondary">
+            {organizationHeaders.map((oh) => (
+              <TableHead key={oh.dbValue}>{oh.displayValue}</TableHead>
+            ))}
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {allOrganizations.map((o) => (
+            <>
+              <TableRow key={o.id}>
+                <TableCell className="font-bold underline">
+                  <Link href={`/admin/organizations/${o.id}`}>{o.name}</Link>
+                </TableCell>
+                <TableCell>{o.code}</TableCell>
+                <TableCell>{o._count.members}</TableCell>
+              </TableRow>
+            </>
           ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {allOrganizations.map((o) => (
-          <>
-            <TableRow key={o.id}>
-              <TableCell>
-                <Link href={`/admin/organizations/${o.id}`}>{o.name}</Link>
-              </TableCell>
-              <TableCell>{o.code}</TableCell>
-              <TableCell>{o._count.members}</TableCell>
-            </TableRow>
-          </>
-        ))}
-      </TableBody>
-    </Table>
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

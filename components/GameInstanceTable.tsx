@@ -78,7 +78,7 @@ const GameInstanceTable = async ({ gameIds, gameInstances }: Props) => {
             <>
               <TableRow key={i.id}>
                 <TableCell>{i.id}</TableCell>
-                <TableCell>
+                <TableCell className="font-bold underline">
                   <Link
                     href={
                       isAdmin

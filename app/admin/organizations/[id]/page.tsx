@@ -18,9 +18,16 @@ const OrganizationPage = async ({ params }: Props) => {
 
   return (
     <div>
-      <h1>{organization.name}</h1>
-      <p>{`Organization join code: ${organization.code}`}</p>
-      <h3>Organization Members</h3>
+      <div className="px-4">
+        <div className="flex justify-between border-b pb-4 mb-4">
+          <h1 className="text-xl">{organization.name}</h1>
+          <p>
+            {`Organization join code: `}
+            <span className="text-yellow-300">{organization.code}</span>
+          </p>
+        </div>
+        <h3 className="mb-4">Organization Members:</h3>
+      </div>
       <UserTable users={organization.members} />
     </div>
   );

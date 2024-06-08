@@ -23,8 +23,8 @@ const LibraryPage = async () => {
   });
 
   return (
-    <div>
-      <Table className="rounded-t border">
+    <div className="px-4">
+      <Table className="border rounded-t">
         <TableHeader>
           <TableRow className="bg-secondary hover:bg-secondary">
             {gameTableHeaders.map(({ displayValue, dbValue }) => (
@@ -36,7 +36,7 @@ const LibraryPage = async () => {
           {allGames.map((g) => (
             <>
               <TableRow key={g.id}>
-                <TableCell>
+                <TableCell className="font-bold underline">
                   <Link href={`/admin/games/${g.id}`}>{g.title}</Link>
                 </TableCell>
                 <TableCell>{g._count.instances}</TableCell>

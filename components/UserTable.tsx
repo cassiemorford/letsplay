@@ -36,7 +36,7 @@ const UserTable = ({ users, includeOrganizationColumn = false }: Props) => {
   userTableHeaders.push({ displayValue: "", dbValue: "" });
 
   return (
-    <div>
+    <div className="px-4">
       <Table className="rounded-t border">
         <TableHeader>
           <TableRow className="bg-secondary hover:bg-secondary">
@@ -49,13 +49,13 @@ const UserTable = ({ users, includeOrganizationColumn = false }: Props) => {
           {users.map((u) => (
             <>
               <TableRow key={u.id}>
-                <TableCell>
+                <TableCell className="font-bold underline">
                   <Link href={`/admin/users/${u.id}`}>{u.name}</Link>
                 </TableCell>
                 <TableCell>{u.email}</TableCell>
                 <TableCell>{u.role}</TableCell>
                 {includeOrganizationColumn && (
-                  <TableCell>
+                  <TableCell className="font-bold underline">
                     <Link
                       href={`/admin/organizations/${
                         (u as UserWithOrganization).organization?.id
