@@ -11,7 +11,7 @@ import { Role } from "@prisma/client";
 const MainNav = async () => {
   const session = await getServerSession(options);
   return (
-    <nav className="flex items-center justify-between align-middle flex-wrap bg-teal-500 p-6">
+    <nav className="flex items-center justify-between align-middle flex-wrap bg-teal-500 p-6 w-full">
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <Link href="/admin">
           <p className="font-bold text-lg text-yellow-200">
@@ -19,7 +19,10 @@ const MainNav = async () => {
           </p>
         </Link>
         {session?.user.role === Role.ADMIN && (
-          <Badge className="bg-yellow-100 ml-4" variant="secondary">
+          <Badge
+            className="bg-yellow-100 text-teal-700 ml-4"
+            variant="secondary"
+          >
             ADMIN
           </Badge>
         )}
@@ -29,7 +32,7 @@ const MainNav = async () => {
         {session ? (
           <>
             <Link
-              className={`inline-block mt-0 text-teal-800 hover:text-teal-900mr-4 ${buttonVariants(
+              className={`inline-block mt-0 text-teal-200 hover:text-teal-900mr-4 ${buttonVariants(
                 { variant: "outline" }
               )}`}
               href="/api/auth/signout?callbackUrl=/"
@@ -39,7 +42,7 @@ const MainNav = async () => {
           </>
         ) : (
           <Link
-            className="inline-block mt-0 text-teal-800 hover:text-teal-900 mr-4"
+            className="inline-block mt-0 text-teal-200 hover:text-teal-900 mr-4"
             href="/api/auth/signin"
           >
             Log In

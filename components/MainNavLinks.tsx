@@ -4,23 +4,35 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const links = [
-  { label: "Home", href: "/admin", roles: [Role.ADMIN, Role.EXTERNAL] },
-  { label: "Users", href: "/admin/users", roles: [Role.ADMIN, Role.EXTERNAL] },
+interface Link {
+  label: string;
+  href: string;
+  roles: Role[];
+}
+
+const links: Link[] = [
+  { label: "Overview", href: "/overview", roles: [Role.EXTERNAL] },
+  { label: "Admin Home", href: "/admin/", roles: [Role.ADMIN] },
+  { label: "Users", href: "/admin/users", roles: [Role.ADMIN] },
   {
     label: "Organizations",
     href: "/admin/organizations",
-    roles: [Role.ADMIN, Role.EXTERNAL],
+    roles: [Role.ADMIN],
   },
   {
     label: "Games",
     href: "/admin/games",
-    roles: [Role.ADMIN, Role.EXTERNAL],
+    roles: [Role.ADMIN],
+  },
+  {
+    label: "Games",
+    href: "/games",
+    roles: [Role.EXTERNAL],
   },
   {
     label: "Game Instances",
     href: "/admin/gameInstances",
-    roles: [Role.ADMIN, Role.EXTERNAL],
+    roles: [Role.ADMIN],
   },
 ];
 
@@ -39,9 +51,9 @@ const MainNavLinks = ({ role }: Props) => {
             <Link
               key={label}
               href={href}
-              className={`navbar-link  inline-block mt-0 text-teal-100 hover:text-white mr-4  ${
+              className={`navbar-link  inline-block mt-0 text-teal-700 hover:text-teal-900 mr-4  ${
                 currentPath === href
-                  ? "cursor-default text-white hover:text-white font-bold"
+                  ? "cursor-default text-teal-900 hover:text-teal-900 font-bold"
                   : ""
               }`}
             >
