@@ -15,7 +15,7 @@ const MainNav = async () => {
       <div className="flex items-center flex-shrink-0 text-white mr-6">
         <Link href="/admin">
           <p className="font-bold text-lg text-yellow-200">
-            Let's Play Foundation
+            {"Let's Play Foundation"}
           </p>
         </Link>
         {session?.user.role === Role.ADMIN && (
