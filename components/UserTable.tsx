@@ -1,3 +1,4 @@
+import { UserWithOrganization } from "@/app/admin/users/types";
 import {
   Table,
   TableBody,
@@ -6,13 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Organization, Prisma, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
-
-type UserWithOrganization = Prisma.UserGetPayload<{
-  include: { organization: true };
-}>;
+import { Button } from "./ui/button";
+import { XSquareIcon } from "lucide-react";
+import DeleteUserButton from "./DeleteUserButton";
 
 interface Props {
   users: User[] | UserWithOrganization[];
@@ -32,6 +32,8 @@ const UserTable = ({ users, includeOrganizationColumn = false }: Props) => {
       dbValue: "organization",
     });
   }
+
+  userTableHeaders.push({ displayValue: "", dbValue: "" });
 
   return (
     <div>
@@ -63,6 +65,9 @@ const UserTable = ({ users, includeOrganizationColumn = false }: Props) => {
                     </Link>
                   </TableCell>
                 )}
+                <TableCell>
+                  <DeleteUserButton userId={u.id} />
+                </TableCell>
               </TableRow>
             </>
           ))}

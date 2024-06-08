@@ -14,6 +14,8 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
+  const { organizationCode } = body;
+  delete body.organizationCode;
 
   const user = await prisma.user.findUnique({
     where: { id: parseInt(params.id) },
@@ -44,7 +46,14 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 
   const updatedUser = await prisma.user.update({
     where: { id: user.id },
-    data: { ...body },
+    data: {
+      ...body,
+      organization: {
+        connect: {
+          code: organizationCode,
+        },
+      },
+    },
   });
 
   return NextResponse.json(updatedUser);
@@ -56,7 +65,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   });
 
   if (!user) {
-    return NextResponse.json({ error: "Ticket not found" }, { status: 404 });
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
   await prisma.user.delete({

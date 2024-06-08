@@ -11,11 +11,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 import { userSchema } from "@/validationSchemas/users";
+import { UserWithOrganization } from "@/app/admin/users/types";
 
 type UserFormData = z.infer<typeof userSchema>;
 
 interface Props {
-  user?: User;
+  user?: UserWithOrganization;
 }
 
 const UserForm = ({ user }: Props) => {
@@ -105,7 +106,7 @@ const UserForm = ({ user }: Props) => {
             <FormField
               control={form.control}
               name="organizationCode"
-              defaultValue={""}
+              defaultValue={user?.organization.code}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Organization Join Code</FormLabel>
