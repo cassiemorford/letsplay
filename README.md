@@ -5,6 +5,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 1. you will need to [install mysql](https://dev.mysql.com/downloads/mysql/)
 2. after installation and creation of a root user add db info to your `.env` file
    * ```DATABASE_URL="mysql://<mysqlrootuser>:<mysqlpassword>@localhost:3306/lpfdb"```
+3. Init the database
+   * `npx prisma generate`
+   * `npx prisma migrate dev`
 3. seed your database by running `npx prisma db seed`. This will create two users with the following credentials:
    * `admin@admin.com` / `password`
    * `external@user.com` / `password`
