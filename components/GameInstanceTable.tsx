@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import prisma from "@/prisma/db";
-import { Game, GameInstance, Prisma, Role } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import React from "react";
