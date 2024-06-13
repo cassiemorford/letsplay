@@ -4,6 +4,8 @@ const client = BggClient.Create();
 
 import { BggThingDto } from "boardgamegeekclient/dist/esm/dto";
 import { Backpack, Clock, Users } from "lucide-react";
+import BggLogo from "./svg/navbar-logo-bgg-b2.svg";
+import Link from "next/link";
 
 interface Props {
   bggId: number | string;
@@ -35,6 +37,14 @@ const GameOverviewCard = async ({ bggId }: Props) => {
             <Backpack className="inline mr-4" />
             minimum recommended age: {gameData.minage}
           </p>
+          <div className=" flex justify-around align-middle rounded-xl bg-slate-900 p-2 mt-8">
+            <Link
+              target="_blank"
+              href={`https://boardgamegeek.com/boardgame/${bggId}`}
+            >
+              <BggLogo />
+            </Link>
+          </div>
         </div>
       </div>
     </>
