@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     query: body.queryString,
   });
 
-  const searchResultGameList = result[0]?.items?.slice(0, 10);
+  const searchResultGameList = result[0]?.items?.slice(0, 100);
 
   return NextResponse.json(searchResultGameList, { status: 200 });
 }

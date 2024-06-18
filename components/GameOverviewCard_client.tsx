@@ -18,7 +18,6 @@ const GameOverviewCard = ({ bggId }: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       const resp = await axios.post(`/api/bgg/games/`, { bggId });
-      debugger;
       setGameData(resp.data);
     };
 
