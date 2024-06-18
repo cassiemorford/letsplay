@@ -1,7 +1,7 @@
 import React from "react";
 
 import prisma from "@/prisma/db";
-import GameOverviewCard from "@/components/BoardGameOverviewCard";
+import GameOverviewCard from "@/components/GameOverviewCard_server";
 import GameInstanceTable from "@/components/GameInstanceTable";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";

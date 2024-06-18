@@ -1,7 +1,7 @@
 import { BggSearchDto } from "boardgamegeekclient/dist/esm/dto";
 import { NextRequest, NextResponse } from "next/server";
 import { BggClient } from "boardgamegeekclient";
-import { bggSearchSchema } from "@/validationSchemas/bggSearch";
+import { bggSearchSchema } from "@/validationSchemas/bgg";
 const client = BggClient.Create();
 
 export async function POST(request: NextRequest) {

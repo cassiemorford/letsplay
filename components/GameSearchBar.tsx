@@ -1,6 +1,5 @@
 "use client";
 import axios from "axios";
-import { BggSearchDto } from "boardgamegeekclient/dist/esm/dto";
 import React, { useState } from "react";
 import {
   Command,
@@ -11,6 +10,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { BggSearchItemDto } from "boardgamegeekclient/dist/esm/dto/concrete/subdto";
+import GameOverviewCard from "./GameOverviewCard_client";
 
 interface BggResponse {
   data: BggSearchItemDto[];
@@ -19,6 +19,7 @@ interface BggResponse {
 const GameSearchBar = () => {
   const [queryString, setQueryString] = useState("");
   const [searchResults, setSearchResults] = useState<BggSearchItemDto[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState<number>();
 
   async function handleSearch(queryString: string) {
     setQueryString(queryString);
@@ -27,6 +28,10 @@ const GameSearchBar = () => {
     });
     setSearchResults(resp.data);
   }
+
+  const handleSelection = (id: number) => {
+    setSelectedItemId(id);
+  };
 
   return (
     <>
@@ -40,13 +45,15 @@ const GameSearchBar = () => {
           <CommandEmpty>no results</CommandEmpty>
           <CommandGroup>
             {searchResults?.map((sr) => (
-              <CommandItem key={sr.id}>
+              <CommandItem onSelect={() => handleSelection(sr.id)} key={sr.id}>
                 {sr.id}/{sr.name}/{sr.yearpublished}
               </CommandItem>
             ))}
           </CommandGroup>
         </CommandList>
       </Command>
+      <p>{selectedItemId}</p>
+      {selectedItemId && <GameOverviewCard bggId={selectedItemId} />}
     </>
   );
 };
