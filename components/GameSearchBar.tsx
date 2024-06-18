@@ -2,13 +2,23 @@
 import axios from "axios";
 import { BggSearchDto } from "boardgamegeekclient/dist/esm/dto";
 import React, { useState } from "react";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { BggSearchItemDto } from "boardgamegeekclient/dist/esm/dto/concrete/subdto";
 
 interface BggResponse {
-  data: BggSearchDto[];
+  data: BggSearchItemDto[];
 }
+
 const GameSearchBar = () => {
   const [queryString, setQueryString] = useState("");
-  const [searchResults, setSearchResults] = useState<BggSearchDto[]>([]);
+  const [searchResults, setSearchResults] = useState<BggSearchItemDto[]>([]);
 
   async function handleSearch(queryString: string) {
     setQueryString(queryString);
@@ -19,23 +29,25 @@ const GameSearchBar = () => {
   }
 
   return (
-    <div>
-      <input
-        placeholder="Type a command or search..."
-        value={queryString}
-        onChange={(ev) => handleSearch(ev.target.value)}
-      />
-
-      {!searchResults?.length && <p>no results</p>}
-      <ul>
-        {searchResults &&
-          searchResults[0]?.items.map((sr) => (
-            <div key="sr.id">
-              <div key={sr.id}>{sr.name}</div>
-            </div>
-          ))}
-      </ul>
-    </div>
+    <>
+      <Command shouldFilter={false}>
+        <CommandInput
+          placeholder="Type a command or search..."
+          value={queryString}
+          onValueChange={handleSearch}
+        />
+        <CommandList>
+          <CommandEmpty>no results</CommandEmpty>
+          <CommandGroup>
+            {searchResults?.map((sr) => (
+              <CommandItem key={sr.id}>
+                {sr.id}/{sr.name}/{sr.yearpublished}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </>
   );
 };
 

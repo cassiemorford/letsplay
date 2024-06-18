@@ -14,8 +14,11 @@ export async function POST(request: NextRequest) {
   }
 
   const result: BggSearchDto[] = await client.search.query({
+    type: "boardgame",
     query: body.queryString,
   });
 
-  return NextResponse.json(result, { status: 200 });
+  const searchResultGameList = result[0]?.items?.slice(0, 10);
+
+  return NextResponse.json(searchResultGameList, { status: 200 });
 }
