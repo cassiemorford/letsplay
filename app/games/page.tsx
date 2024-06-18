@@ -1,7 +1,8 @@
 import React from "react";
+import GameLibrary from "@/components/GameLibrary";
 
-const GamePage = () => {
-  return <div>GamePage</div>;
+const LibraryPage = async () => {
+  return <GameLibrary useAdminLinks={false} />;
 };
 
-export default GamePage;
+export default LibraryPage;
