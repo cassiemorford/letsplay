@@ -53,6 +53,8 @@ model WishlistItem {
   gameId         Int
   organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId Int
+
+  @@unique([gameId, organizationId])
 }
 
 enum Role {
