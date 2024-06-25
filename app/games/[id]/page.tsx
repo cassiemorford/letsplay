@@ -33,10 +33,13 @@ const GamePage = async ({ params }: Props) => {
 
   return (
     <>
-      <AddToWishlistButton
-        gameId={+game.id}
-        organizationId={session?.user.organizationId}
-      />
+      <div className="flex justify-end">
+        <AddToWishlistButton
+          gameId={+game.id}
+          organizationId={session?.user.organizationId}
+        />
+      </div>
+
       <GameOverviewCard bggId={game.bggId} />
       {gameInstancesAtUserLocation.length ? (
         <GameInstanceTable gameInstances={gameInstancesAtUserLocation} />
