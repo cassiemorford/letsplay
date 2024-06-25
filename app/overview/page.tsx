@@ -33,11 +33,11 @@ const OverViewPage = async () => {
   return (
     <div className="flex justify-between">
       <div className="basis-2/5">
-        <h1 className="text-lg mx-6 pt-8 pb-8">{`Borrowed Titles`}</h1>
+        <h1 className="text-lg pt-8 pb-8">{`Borrowed Titles`}</h1>
         <GameInstanceTable gameInstances={user.organization.borrowedGames} />
       </div>
       <div className="basis-2/5 pl-4">
-        <h1 className="text-lg mx-6 pt-8 pb-8">{`Wishlist`}</h1>
+        <h1 className="text-lg pt-8 pb-8">{`Wishlist`}</h1>
         <GameWishlistTable organizationId={user.organization.id} />
       </div>
     </div>

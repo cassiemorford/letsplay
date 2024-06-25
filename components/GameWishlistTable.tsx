@@ -45,29 +45,33 @@ const GameWishlistTable = async ({ organizationId }: Props) => {
 
   return (
     <div>
-      <Table className="rounded-t border">
-        <TableHeader>
-          <TableRow className="bg-secondary hover:bg-secondary">
-            {GameWishlistTableHeaders.map(({ displayValue, dbValue }) => (
-              <TableHead key={dbValue}>{displayValue}</TableHead>
+      {!!wishlistItems.length ? (
+        <Table className="rounded-t border">
+          <TableHeader>
+            <TableRow className="bg-secondary hover:bg-secondary">
+              {GameWishlistTableHeaders.map(({ displayValue, dbValue }) => (
+                <TableHead key={dbValue}>{displayValue}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {wishlistItems.map((i) => (
+              <>
+                <TableRow key={i.id}>
+                  <TableCell className="font-bold underline">
+                    <Link href={`/games/${i.game.id}`}>{i.game.title}</Link>
+                  </TableCell>
+                  <TableCell className="flex justify-end">
+                    <DeleteWishlistItemButton wishlistItemId={i.id} />
+                  </TableCell>
+                </TableRow>
+              </>
             ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {wishlistItems.map((i) => (
-            <>
-              <TableRow key={i.id}>
-                <TableCell className="font-bold underline">
-                  <Link href={`/games/${i.game.id}`}>{i.game.title}</Link>
-                </TableCell>
-                <TableCell className="flex justify-end">
-                  <DeleteWishlistItemButton wishlistItemId={i.id} />
-                </TableCell>
-              </TableRow>
-            </>
-          ))}
-        </TableBody>
-      </Table>
+          </TableBody>
+        </Table>
+      ) : (
+        <p className="text-teal-200">Your wishlist is empty</p>
+      )}
     </div>
   );
 };
