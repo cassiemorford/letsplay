@@ -5,6 +5,7 @@ import GameOverviewCard from "@/components/GameOverviewCard_server";
 import GameInstanceTable from "@/components/GameInstanceTable";
 import options from "@/app/api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import AddToWishlistButton from "@/components/AddToWishlistButton";
 
 interface Props {
   params: { id: string };
@@ -32,6 +33,13 @@ const GamePage = async ({ params }: Props) => {
 
   return (
     <>
+      <div className="flex justify-end">
+        <AddToWishlistButton
+          gameId={+game.id}
+          organizationId={session?.user.organizationId}
+        />
+      </div>
+
       <GameOverviewCard bggId={game.bggId} />
       {gameInstancesAtUserLocation.length ? (
         <GameInstanceTable gameInstances={gameInstancesAtUserLocation} />

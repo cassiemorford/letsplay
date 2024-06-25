@@ -18,6 +18,7 @@ model Organization {
   code          String         @unique
   members       User[]
   borrowedGames GameInstance[]
+  WishlistItems WishlistItem[]
 }
 
 model User {
@@ -31,10 +32,11 @@ model User {
 }
 
 model Game {
-  id        Int            @id @default(autoincrement())
-  title     String
-  bggId     Int            @unique
-  instances GameInstance[]
+  id            Int            @id @default(autoincrement())
+  title         String
+  bggId         Int            @unique
+  instances     GameInstance[]
+  WishlistItems WishlistItem[]
 }
 
 model GameInstance {
@@ -43,6 +45,16 @@ model GameInstance {
   gameId     Int
   borrower   Organization @relation(fields: [borrowerId], references: [id])
   borrowerId Int
+}
+
+model WishlistItem {
+  id             Int          @id @default(autoincrement())
+  game           Game         @relation(fields: [gameId], references: [id])
+  gameId         Int
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int
+
+  @@unique([gameId, organizationId])
 }
 
 enum Role {
