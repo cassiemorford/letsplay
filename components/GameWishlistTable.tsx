@@ -11,6 +11,7 @@ import prisma from "@/prisma/db";
 import { Prisma } from "@prisma/client";
 import Link from "next/link";
 import React from "react";
+import DeleteWishlistItemButton from "./DeleteWishListItemButton";
 
 const wishlistItemWithGame = Prisma.validator<Prisma.WishlistItemDefaultArgs>()(
   {
@@ -28,6 +29,7 @@ interface Props {
 
 const GameWishlistTableHeaders = [
   { displayValue: "Game Title", dbValue: "game.title" },
+  { displayValue: "", dbValue: "actions" },
 ];
 
 const GameWishlistTable = async ({ organizationId }: Props) => {
@@ -57,6 +59,9 @@ const GameWishlistTable = async ({ organizationId }: Props) => {
               <TableRow key={i.id}>
                 <TableCell className="font-bold underline">
                   <Link href={`/games/${i.game.id}`}>{i.game.title}</Link>
+                </TableCell>
+                <TableCell className="flex justify-end">
+                  <DeleteWishlistItemButton wishlistItemId={i.id} />
                 </TableCell>
               </TableRow>
             </>
