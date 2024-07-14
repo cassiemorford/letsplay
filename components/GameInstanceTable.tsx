@@ -18,7 +18,7 @@ const gameInstanceWithGameAndBorrower =
     include: { game: true, borrower: true },
   });
 
-type GameInstanceWithGameAndBorrower = Prisma.GameInstanceGetPayload<
+export type GameInstanceWithGameAndBorrower = Prisma.GameInstanceGetPayload<
   typeof gameInstanceWithGameAndBorrower
 >;
 
