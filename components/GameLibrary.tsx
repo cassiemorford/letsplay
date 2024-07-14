@@ -9,9 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
+import { BookOpenCheck, Icon } from "lucide-react";
 
 interface Props {
   useAdminLinks: boolean;
+  borrowedGameIds?: number[];
 }
 
 const gameTableHeaders = [
@@ -19,7 +21,8 @@ const gameTableHeaders = [
   { displayValue: "Game Instances", dbValue: "gameInstance" },
 ];
 
-const GameLibrary = async ({ useAdminLinks }: Props) => {
+const GameLibrary = async ({ useAdminLinks, borrowedGameIds = [] }: Props) => {
+  const gameIdSet = new Set(borrowedGameIds);
   const allGames = await prisma.game.findMany({
     include: {
       _count: { select: { instances: true } },
@@ -48,6 +51,9 @@ const GameLibrary = async ({ useAdminLinks }: Props) => {
                   >
                     {g.title}
                   </Link>
+                  {gameIdSet.has(g.id) && (
+                    <BookOpenCheck className="ml-4 inline-block" />
+                  )}
                 </TableCell>
                 <TableCell>{g._count.instances}</TableCell>
               </TableRow>
