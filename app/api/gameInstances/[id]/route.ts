@@ -27,12 +27,7 @@ export async function PATCH(request: NextRequest, { params }: Props) {
   const updatedUser = await prisma.gameInstance.update({
     where: { id: +params.id },
     data: {
-      ...body,
-      organization: {
-        connect: {
-          id: body.borrowerId,
-        },
-      },
+      borrowerId: body.borrowerId,
     },
   });
 
