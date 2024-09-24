@@ -10,10 +10,19 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import UpdateBorrowerButton from "./UpdateBorrowerButton";
-import { GameInstance, Organization } from "@prisma/client";
+import { GameInstance, Organization, Prisma } from "@prisma/client";
+
+const gameInstanceWithBorrower =
+  Prisma.validator<Prisma.GameInstanceDefaultArgs>()({
+    include: { borrower: true },
+  });
+
+type GameInstanceWithBorrower = Prisma.GameInstanceGetPayload<
+  typeof gameInstanceWithBorrower
+>;
 
 interface Props {
-  gameInstance: GameInstance;
+  gameInstance: GameInstanceWithBorrower;
 }
 
 interface OrganizationSearchResponse {
@@ -25,8 +34,8 @@ const OrgSearchBar = ({ gameInstance }: Props) => {
   const [selectedItem, setSelectedItem] = useState<Organization>();
 
   async function handleSearch(queryString: string) {
-    if (!queryString) return;
     setQueryString(queryString);
+    if (!queryString) return;
     const resp: OrganizationSearchResponse = await axios.post(
       "/api/organizations/search",
       {
