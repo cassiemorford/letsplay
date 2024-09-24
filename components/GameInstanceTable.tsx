@@ -77,7 +77,9 @@ const GameInstanceTable = async ({ gameIds, gameInstances }: Props) => {
           {gameInstances.map((i) => (
             <>
               <TableRow key={i.id}>
-                <TableCell>{i.id}</TableCell>
+                <TableCell>
+                  <Link href={`/admin/gameInstances/${i.id}`}>{i.id}</Link>
+                </TableCell>
                 <TableCell className="font-bold underline">
                   <Link
                     href={
